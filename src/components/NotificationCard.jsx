@@ -1,40 +1,81 @@
-import { Card, CardContent, Typography, Chip } from "@mui/material";
+import React from "react";
 
 function NotificationCard({ notification }) {
+  const getTypeClass = (type) => {
+    switch (type) {
+      case "Placement":
+        return "notification-placement";
+
+      case "Result":
+        return "notification-result";
+
+      case "Event":
+        return "notification-event";
+
+      case "Exam":
+        return "notification-exam";
+
+      default:
+        return "notification-general";
+    }
+  };
+
+  const getIcon = (type) => {
+    switch (type) {
+      case "Placement":
+        return "bi-briefcase-fill";
+
+      case "Result":
+        return "bi-trophy-fill";
+
+      case "Event":
+        return "bi-calendar-event-fill";
+
+      case "Exam":
+        return "bi-journal-text";
+
+      default:
+        return "bi-bell-fill";
+    }
+  };
+
   return (
-    <Card
-      sx={{
-        marginBottom: 2,
-        borderRadius: 2,
-        boxShadow: 3,
-      }}
-    >
-      <CardContent>
-        <Chip
-          label={notification.Type}
-          color={
-            notification.Type === "Placement"
-              ? "success"
-              : notification.Type === "Result"
-              ? "primary"
-              : "warning"
-          }
-          sx={{ marginBottom: 2 }}
-        />
+    <div className={`notification-card ${getTypeClass(notification.Type)}`}>
 
-        <Typography variant="h6" fontWeight="bold">
-          {notification.Message}
-        </Typography>
+      <div className="notification-card-content">
 
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{ marginTop: 1 }}
-        >
-          {new Date(notification.Timestamp).toLocaleString()}
-        </Typography>
-      </CardContent>
-    </Card>
+        {/* ICON */}
+        <div className="notification-icon">
+          <i className={`bi ${getIcon(notification.Type)}`}></i>
+        </div>
+
+        {/* CONTENT */}
+        <div className="notification-content">
+
+          {/* TYPE */}
+          <div className="notification-header">
+            <span className="notification-badge">
+              {notification.Type}
+            </span>
+          </div>
+
+          {/* MESSAGE */}
+          <h5 className="notification-title">
+            {notification.Message}
+          </h5>
+
+          {/* DATE */}
+          <div className="notification-date">
+            <i className="bi bi-clock me-2"></i>
+
+            {new Date(notification.Timestamp).toLocaleString()}
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
   );
 }
 
